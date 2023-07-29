@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>JavaScript for Everyone:DOM</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- font-awesome CDN link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <script src="./dataBase.js"></script>
+
+    <div class="wrapper">
+        <h1>From Asabeneh Yetayeh Challenges, by SeyFo<span id="year2020">2023</span> </h1>
+        <h2>30DaysOfJavaScript Challenge</h2>
+        <p class="date" id='timestampID'></p>
+        <ul id="mainListUl" style="border-radius: 5px;">
+
+        </ul>
+    </div>
+
+
+    <script>
+        const allElements = document.getElementsByTagName('*')
+        for (let i = 0; i < allElements.length; i++) {
+            allElements[i].style.textAlign = 'center'
+            allElements[i].style.fontStyle = 'Verdana, Geneva, Tahoma, sans-serif'
+            allElements[i].style.padding = '7px'
+            allElements[i].style.listStyle = 'none'
+        }
+
+        const header = document.querySelector('h1')
+        header.style.fontStyle = 'Arial'
+        header.style.fontWeight = 'Bold'
+        const year2020 = document.querySelector('#year2020')
+        year2020.style.fontSize = '50px'
+
+        function getColor() {
+            let r = 100 + Math.floor(Math.random() * 155)
+            let g = 100 + Math.floor(Math.random() * 155)
+            let b = 100 + Math.floor(Math.random() * 155)
+
+            return `rgb(${r},${g},${b})`
+        }
+
+
+        setInterval(() => {
+            year2020.style.color = getColor()
+        }, 500);
+
+        const subHeader = document.getElementsByTagName('h2')
+        subHeader[0].style.textDecoration = "underline"
+        subHeader[0].style.fontWeight = "Normal"
+
+
+        tarihClass = document.querySelector('.date')
+
+        setInterval(() => {
+            const tarih = new Date()
+            // console.log(tarih)
+            const yil = tarih.getFullYear();
+            let ay = tarih.getMonth() + 1;
+            let gun = tarih.getDate();
+            let saat = tarih.getHours();
+            let dakika = tarih.getMinutes();
+            let saniye = tarih.getSeconds();
+
+
+            ay < 10 ? ay = '0' + ay : ay
+            gun < 10 ? gun = '0' + gun : gun
+            saat < 10 ? saat = '0' + saat : saat
+            dakika < 10 ? dakika = '0' + dakika : dakika
+            saniye < 10 ? saniye = '0' + saniye : saniye
+
+            tarihClass.innerText = gun + ':' + ay + ':' + yil + '  ' + saat + ':' + dakika + ':' + saniye
+        }, 1000);
+
+        setInterval(() => {
+            timestampID.style.backgroundColor = getColor()
+            timestampID.style.display = 'inline-block'
+            timestampID.style.padding = '15px'
+            timestampID.style.borderRadius = '15px'
+        }, 1000);
+
+
+        const parentUL = document.querySelector('#mainListUl')
+
+        for (i = 0; i < data.challenges.length; i++) {
+            let currentElement = document.createElement('li')
+            currentElement.innerText = data.challenges[i].name
+
+            const newDetails = document.createElement('details')
+            const newSummary = document.createElement('summary')
+            const newDetailContent = document.createElement('div')
+            newDetailContent.style.marginTop = '5px'
+            newDetailContent.style.marginBottom = '25px'
+
+            newSummary.innerText = data.challenges[i].topics[0]
+
+            newTopicsArr = data.challenges[i].topics
+
+            for (const topic of newTopicsArr) {
+                const newLiElement = document.createElement('li')
+                newLiElement.innerText = topic
+                newDetailContent.appendChild(newLiElement)
+            }
+
+            newDetails.appendChild(newSummary)
+            newDetails.appendChild(newDetailContent)
+            currentElement.appendChild(newDetails)
+            parentUL.appendChild(currentElement)
+
+            currentElement.innerHTML += data.challenges[i].status
+
+            // currentElement.style.display = 'flex'
+            currentElement.style.padding = '15px'
+
+            currentElement.style.display='grid'
+            currentElement.style.gridTemplateColumns='3fr 2fr 2fr'
+            currentElement.style.textAlign='left'
+
+
+            currentElement.classList.add(data.challenges[i].status)
+
+
+        }
+
+
+        const doneTasks = document.querySelectorAll('.Done')
+        doneTasks.forEach(element => {
+            element.style.backgroundColor = '#5BBC7A'
+        });
+
+        const onGoingTasks = document.querySelectorAll('.Ongoing')
+        onGoingTasks.forEach(element => {
+            element.style.backgroundColor = '#F7DC5C'
+        });
+
+        const comingTasks = document.querySelectorAll('.Coming')
+        comingTasks.forEach(element => {
+            element.style.backgroundColor = '#EB4C42'
+        });
+
+
+        const bodyElement = document.querySelector('body')
+        const authorElement = document.createElement('h3')
+        authorElement.innerText = data.author.firstName + ' ' + data.author.lastName
+        bodyElement.appendChild(authorElement)
+
+        const authorSocialContainerElement = document.createElement('div')
+        for (const socialLink of data.author.socialLinks) {
+            const newSocial = document.createElement('div')
+            newSocial.innerHTML = `<a href=${socialLink.url} style='margin:4px;'>${socialLink.fontawesomeIcon}</a>`
+            authorSocialContainerElement.appendChild(newSocial)
+        }
+        authorSocialContainerElement.style.display = 'flex'
+        authorSocialContainerElement.style.justifyContent = 'center'
+
+        bodyElement.appendChild(authorSocialContainerElement)
+
+        const bioElement = document.createElement('p')
+        bioElement.innerText = data.author.bio
+        bodyElement.appendChild(bioElement)
+
+
+
+        const containerElementForLists = document.createElement('div')
+        document.body.appendChild(containerElementForLists)
+
+        const titlesULElement = document.createElement('ul')
+        const skillsULElement = document.createElement('ul')
+        const qualificationsULElement = document.createElement('ul')
+
+        for (const title of data.author.titles) {
+            const newLi = document.createElement('li')
+            newLi.textContent = title[0] + ' ' + title[1]
+            titlesULElement.appendChild(newLi)
+        }
+        // bodyElement.innerHTML += 'Titles'
+        containerElementForLists.appendChild(titlesULElement)
+        const titleHeader = document.createElement('li')
+        titleHeader.innerText = 'Titles'
+        titlesULElement.insertBefore(titleHeader, titlesULElement.children[0])
+        titlesULElement.children[0].style.fontWeight = '900'
+        titlesULElement.style.listStyle = 'none'
+        titlesULElement.style.textAlign = 'start'
+
+
+        for (const skill of data.author.skills) {
+            const newLi = document.createElement('li')
+            newLi.innerHTML = `<li><i class="fa-regular fa-square-check" style="color: #54b65f; margin:2px 5px"></i>  ${skill}  </li>`
+            skillsULElement.appendChild(newLi)
+
+        }
+        containerElementForLists.appendChild(skillsULElement)
+        const titleSkills = document.createElement('li')
+        titleSkills.innerHTML = 'Skills'
+        skillsULElement.insertBefore(titleSkills, skillsULElement.children[0])
+        skillsULElement.children[0].style.fontWeight = '900'
+        skillsULElement.style.listStyle = 'none'
+        skillsULElement.style.textAlign = 'start'
+
+
+
+        for (const qualification of data.author.qualifications) {
+            const newLi = document.createElement('li')
+            newLi.textContent = qualification
+            newLi.style.margin = '2px 0'
+            qualificationsULElement.appendChild(newLi)
+
+        }
+        containerElementForLists.appendChild(qualificationsULElement)
+        const titleQualification = document.createElement('li')
+        titleQualification.innerText = 'Qualifications'
+        qualificationsULElement.insertBefore(titleQualification, qualificationsULElement.children[0])
+        qualificationsULElement.children[0].style.fontWeight = '900'
+        qualificationsULElement.style.listStyle = 'none'
+        qualificationsULElement.style.textAlign = 'start'
+        containerElementForLists.style.display = 'flex'
+        containerElementForLists.style.alignItems = 'start'
+        containerElementForLists.style.justifyContent = 'space-between'
+
+
+        //KEYWORDS//
+        const containerElementForKeywords = document.createElement('div')
+        const keywordsPElement = document.createElement('p')
+        keywordsPElement.innerText = 'Keywords'
+        keywordsPElement.style.fontWeight = '900'
+        keywordsPElement.style.textAlign = 'left'
+        keywordsPElement.style.marginLeft = '2rem'
+        containerElementForKeywords.appendChild(keywordsPElement)
+        bodyElement.appendChild(containerElementForKeywords)
+
+        const keywodsDivElement = document.createElement('div')
+
+        for (const keyword of data.keywords) {
+            const keywordElement = document.createElement('div')
+            let r = Math.floor(Math.random() * 180) + 50; //beyaz ve siyahtan uzaklaştırarak orta tonlar verildi
+            let g = Math.floor(Math.random() * 180) + 50;
+            let b = Math.floor(Math.random() * 180) + 50;
+            let renk = `rgb(${r},${g},${b})`
+
+            keywordElement.innerHTML = `<div style='font-family: "Courier New", Courier, monospace; border-radius:3px; background-color:${renk}; margin:3px 6px; padding:3px 6px; border-radius:10px '># ${keyword}</div>`
+            // containerElementForKeywords.style.margin='5rem'
+            keywodsDivElement.appendChild(keywordElement)
+        }
+
+        keywodsDivElement.style.display = 'flex'
+        keywodsDivElement.style.flexWrap = 'wrap'
+        keywodsDivElement.style.justifyContent = 'space-between'
+        keywodsDivElement.style.margin = '15px 50px'
+        keywodsDivElement.style.fontFamily = "'Courier New', Courier, monospace"
+        containerElementForKeywords.appendChild(keywodsDivElement)
+
+
+    </script>
+
+
+</body>
+
+</html>
